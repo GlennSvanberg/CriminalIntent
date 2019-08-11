@@ -22,6 +22,7 @@ public class CrimeListFragment extends Fragment{
 
     private RecyclerView mCrimeRecyclerView;
     private CrimeAdapter mAdapter;
+    private int adapterPosition;
 
     @Nullable
     @Override
@@ -43,6 +44,7 @@ public class CrimeListFragment extends Fragment{
         updateUI();
     }
 
+
     private void updateUI() {
         CrimeLab crimeLab = CrimeLab.get(getActivity());
         List<Crime> crimes = crimeLab.getCrimes();
@@ -50,8 +52,7 @@ public class CrimeListFragment extends Fragment{
             mAdapter = new CrimeAdapter(crimes);
             mCrimeRecyclerView.setAdapter(mAdapter);
         } else {
-            //notify ItemChangeSet
-            mAdapter.notifyDataSetChanged();
+            mAdapter.notifyItemChanged(adapterPosition);
         }
 
     }
@@ -64,6 +65,8 @@ public class CrimeListFragment extends Fragment{
         private TextView mDateTextView;
         private ImageView mSolvedImageView;
 
+
+
         public CrimeHolder(LayoutInflater inflater, ViewGroup parent) {
             super(inflater.inflate(R.layout.list_item_crime,parent,false));
             itemView.setOnClickListener(this);
@@ -75,8 +78,9 @@ public class CrimeListFragment extends Fragment{
 
         @Override
         public void onClick(View view) {
+            adapterPosition = getAdapterPosition();
             Intent intent = CrimeActivity.newIntent(getActivity(), mCrime.getId());
-            startActivity(intent);
+            startActivityForResult(intent, 1);
         }
 
         public void bind(Crime crime) {
