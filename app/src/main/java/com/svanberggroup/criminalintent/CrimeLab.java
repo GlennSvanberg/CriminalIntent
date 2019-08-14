@@ -39,7 +39,7 @@ public class CrimeLab {
     }
     public void deleteCrime(UUID id) {
         mDatabase.delete(CrimeTable.NAME, CrimeTable.Cols.UUID + " = ?", new String[] { id.toString()});
-        
+
     }
     public List<Crime> getCrimes() {
         List<Crime> crimes = new ArrayList<>();
@@ -98,6 +98,7 @@ public class CrimeLab {
         values.put(CrimeTable.Cols.TITLE, crime.getTitle());
         values.put(CrimeTable.Cols.DATE, crime.getDate().getTime());
         values.put(CrimeTable.Cols.SOLVED, crime.isSolved());
+        values.put(CrimeTable.Cols.SUSPECT, crime.getSuspect());
 
         return values;
     }
