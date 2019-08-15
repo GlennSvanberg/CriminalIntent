@@ -25,6 +25,7 @@ import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ImageView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -44,10 +45,13 @@ public class CrimeFragment extends Fragment {
 
     private static final String ARG_CRIME_ID = "crime_id";
     private static final String DIALOG_DATE = "DialogDate";
+    private static final String DIALOG_IMAGE = "DialogImage";
+
 
     private static final int REQUEST_DATE = 0;
     private static final int REQUEST_CONTACT = 1;
     private static final int REQUEST_PHOTO = 2;
+    private static final int REQUEST_IMAGE = 3;
 
     private Crime mCrime;
     private File mPhotoFile;
@@ -183,6 +187,20 @@ public class CrimeFragment extends Fragment {
         });
         mPhotoView = (ImageView) v.findViewById(R.id.crime_photo);
         updatePhotoView();
+        mPhotoView.setOnClickListener(new OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+                if (mPhotoFile==null || !mPhotoFile.exists()) return;
+                FragmentManager manager = getFragmentManager();
+
+                //Toast.makeText(getActivity(), mCrime.getPhotoFileName(), Toast.LENGTH_SHORT).show();
+
+                ImageViewFragment dialog = ImageViewFragment.newInstance(mPhotoFile.getPath());
+                dialog.setTargetFragment(CrimeFragment.this, REQUEST_IMAGE);
+                dialog.show(manager, DIALOG_IMAGE);
+            }
+        });
         return v;
     }
 
