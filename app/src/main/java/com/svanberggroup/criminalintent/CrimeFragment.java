@@ -292,8 +292,9 @@ public class CrimeFragment extends Fragment {
         mCallbacks.onCrimeUpdated(mCrime);
     }
     private void updateDate(Date date) {
-        String dateFormat = "EEE, MMM dd";
-        mDateButton.setText(DateFormat.format(dateFormat, date));
+
+        String formattedDateString = java.text.DateFormat.getDateInstance().format(date);
+        mDateButton.setText(formattedDateString);
     }
     private String getCrimeReport() {
         String solvedString = null;
@@ -303,8 +304,7 @@ public class CrimeFragment extends Fragment {
             solvedString = getString(R.string.crime_report_unsolved);
         }
 
-        String dateFormat = "EEE, MMM dd";
-        String dateString = DateFormat.format(dateFormat, mCrime.getDate()).toString();
+        String dateString = java.text.DateFormat.getDateInstance().format(mCrime.getDate());
 
         String suspect = mCrime.getSuspect();
         if(suspect == null) {
